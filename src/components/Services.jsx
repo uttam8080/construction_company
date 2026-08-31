@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { 
   Hammer, 
   Building2, 
@@ -24,122 +24,193 @@ const iconComponents = {
   Compass
 };
 
+const ServiceCard = ({ service, idx, totalItems, scrollYProgress, onClick }) => {
+  const Icon = iconComponents[service.iconName] || Building2;
+  
+  // We use mathematical callbacks to guarantee no framer-motion array extrapolation crashes
+  const delay = 0.15;
+  const activeSpace = 1 - delay;
+  const step = activeSpace / totalItems;
+  
+  const height = useTransform(scrollYProgress, (pos) => {
+    if (pos <= delay) return "56px"; // Dead zone at the start
+    
+    const peak = delay + ((idx + 0.5) * step);
+    const dist = Math.abs(pos - peak);
+    // Expand when within 1 step distance
+    const progress = Math.max(0, 1 - (dist / step));
+    return `${56 + (progress * (240 - 56))}px`;
+  });
+
+  const expandedOpacity = useTransform(scrollYProgress, (pos) => {
+    if (pos <= delay) return 0;
+    
+    const peak = delay + ((idx + 0.5) * step);
+    const dist = Math.abs(pos - peak);
+    // Use the exact same threshold (step) as height so it fades in immediately
+    const progress = Math.max(0, 1 - (dist / step));
+    return progress;
+  });
+
+  const collapsedOpacity = useTransform(scrollYProgress, (pos) => {
+    if (pos <= delay) return 1;
+    
+    const peak = delay + ((idx + 0.5) * step);
+    const dist = Math.abs(pos - peak);
+    // Inverse of expanded
+    const progress = Math.min(1, dist / step);
+    return progress;
+  });
+
+  return (
+    <motion.div
+      onClick={onClick}
+      className="relative overflow-hidden shadow-lg rounded-[2rem] sm:rounded-[2.5rem] flex flex-col justify-end cursor-pointer"
+      style={{ height }}
+    >
+      {/* Base Background (Collapsed State) */}
+      <div className="absolute inset-0 bg-[#F1F5F9] pointer-events-none" />
+
+      {/* Expanded Background Overlay */}
+      <motion.div 
+        className="absolute inset-0 bg-[#0D1522] pointer-events-none"
+        style={{ opacity: expandedOpacity }}
+      />
+      {/* Active Expanded State: Background Image */}
+      <motion.div
+        style={{ opacity: expandedOpacity }}
+        className="absolute inset-0 pointer-events-none"
+      >
+        <img
+          src={service.image}
+          alt={service.title}
+          className="w-full h-full object-cover object-center filter brightness-75 contrast-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0D1522] via-[#0D1522]/40 to-transparent" />
+      </motion.div>
+
+      {/* Content Overlay */}
+      <div className="relative z-10 w-full h-full">
+        {/* Collapsed State Layout */}
+        <motion.div 
+          style={{ opacity: collapsedOpacity }}
+          className="absolute inset-0 flex items-center justify-between px-6 sm:px-8 pointer-events-none"
+        >
+          <div className="flex items-center gap-4">
+            <div className="text-[#0D1522]/50">
+              <Icon className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-[#0D1522] text-sm sm:text-base">{service.title}</h3>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:block text-[10px] font-mono text-[#0D1522]/50 tracking-wider">
+              {service.metric}
+            </div>
+            <div className="w-8 h-8 rounded-full bg-[#0D1522]/5 flex items-center justify-center">
+              <ChevronDown className="w-4 h-4 text-[#0D1522]" />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Expanded State Layout */}
+        <motion.div
+          style={{ opacity: expandedOpacity }}
+          className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 pointer-events-none"
+        >
+          <div className="flex items-end justify-between gap-6 pointer-events-auto">
+            <div className="max-w-xl">
+              <h3 className="text-2xl sm:text-4xl font-heading font-extrabold text-white mb-3">
+                {service.title}
+              </h3>
+              <p className="text-sm sm:text-base text-[#CBD5E1]/90 leading-relaxed">
+                {service.shortDesc}
+              </p>
+            </div>
+            <div className="hidden sm:flex w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 items-center justify-center text-white flex-shrink-0 hover:bg-[#E8892D] hover:border-[#E8892D] transition-colors">
+              <ArrowRight className="w-5 h-5" />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+};
+
 export default function Services({ onOpenQuote }) {
   const [activeServiceModal, setActiveServiceModal] = useState(null);
+  const containerRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  // We dedicate the first chunk of scrolling to fading out the header and sliding the accordion up.
+  // Then the remaining space is divided among the 6 cards.
+  const headerFadeEnd = 0.15;
+  const activeSpace = 1 - headerFadeEnd;
+  const step = activeSpace / 6;
+
+  // Header Animation
+  const headerOpacity = useTransform(scrollYProgress, [0, headerFadeEnd * 0.8], [1, 0]);
+  const headerY = useTransform(scrollYProgress, [0, headerFadeEnd * 0.8], ["0%", "-50%"]);
+  
+  // Accordion Wrapper Animation (slides up to take the header's space)
+  const accordionY = useTransform(scrollYProgress, [0, headerFadeEnd], ["0px", "-120px"]);
 
   return (
     <section
       id="services"
-      className="relative z-10 bg-[#162238] text-white py-20 sm:py-28 lg:py-32"
+      ref={containerRef}
+      className="relative z-10 bg-[#162238] text-white"
+      style={{ height: "600vh" }} 
     >
-      {/* Background Architectural Patterns */}
-      <div className="absolute inset-0 bg-blueprint-grid opacity-20 pointer-events-none" />
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#E8892D]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+        {/* Background Architectural Patterns */}
+        <div className="absolute inset-0 bg-blueprint-grid opacity-20 pointer-events-none" />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#E8892D]/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20 space-y-4">
-          <div className="inline-flex items-center gap-2">
-            <span className="w-6 h-0.5 bg-[#E8892D]" />
-            <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#E8892D]">
-              WHAT WE DO
-            </span>
-            <span className="w-6 h-0.5 bg-[#E8892D]" />
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight">
-            Comprehensive Construction Services. <br />
-            <span className="text-[#CBD5E1]">Engineered for Performance.</span>
-          </h2>
-
-          <p className="text-sm sm:text-base text-[#CBD5E1]/80">
-            From initial ground-breaking to high-rise verticality, our specialized engineering divisions operate under the most stringent safety, schedule, and budgetary benchmarks.
-          </p>
-        </div>
-
-        {/* 6 Service Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {servicesData.map((service, idx) => {
-            const Icon = iconComponents[service.iconName] || Building2;
-
-            return (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.08 }}
-                onClick={() => setActiveServiceModal(service)}
-                className="group relative bg-[#0D1522] p-7 sm:p-8 rounded-sm border border-white/10 hover:border-[#E8892D]/80 transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-1.5 shadow-xl"
-              >
-                {/* Top Number & Icon */}
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-2xl sm:text-3xl font-mono font-bold text-slate-500 group-hover:text-[#E8892D] transition-colors">
-                      {service.number}
-                    </span>
-                    <div className="w-12 h-12 rounded-sm bg-[#162238] border border-white/10 flex items-center justify-center text-[#E8892D] group-hover:bg-[#E8892D] group-hover:text-white transition-all duration-300">
-                      <Icon className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                    </div>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-xl font-heading font-bold text-white group-hover:text-[#F8FAFC] transition-colors mb-3">
-                    {service.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm text-[#CBD5E1]/80 leading-relaxed">
-                    {service.shortDesc}
-                  </p>
-
-                  {/* Metric Tag */}
-                  <div className="mt-4 inline-block bg-[#162238] text-[#E8892D] text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-sm border border-[#E8892D]/20">
-                    {service.metric}
-                  </div>
-                </div>
-
-                {/* Bottom Action / Orange Accent Line */}
-                <div className="pt-6 mt-6 border-t border-white/5 flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-white transition-colors">
-                    Explore Scope
-                  </span>
-                  <div className="w-8 h-8 rounded-sm bg-[#162238] flex items-center justify-center text-slate-400 group-hover:bg-[#E8892D] group-hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                </div>
-
-                {/* Bottom Hover Accent Bar */}
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E8892D] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Banner CTA for Custom Engineering */}
-        <div className="mt-14 bg-[#0D1522] p-6 sm:p-8 rounded-sm border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-sm bg-[#E8892D]/15 text-[#E8892D] flex items-center justify-center flex-shrink-0">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-base font-bold text-white">Need a Specialized Engineering Solution?</h4>
-              <p className="text-xs text-[#CBD5E1] mt-0.5">
-                Our in-house structural estimators and BIM specialists provide preliminary feasibility modeling within 48 hours.
-              </p>
-            </div>
-          </div>
-
-          <button
-            onClick={onOpenQuote}
-            className="w-full md:w-auto bg-[#E8892D] hover:bg-[#d97b20] text-white text-xs font-bold uppercase tracking-wider px-6 py-3.5 rounded-sm transition-colors flex-shrink-0 shadow-lg shadow-[#E8892D]/20 cursor-pointer"
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
+          
+          {/* Animated Section Header */}
+          <motion.div 
+            style={{ opacity: headerOpacity, y: headerY }}
+            className="text-center max-w-3xl mx-auto mb-10 space-y-3"
           >
-            Request Technical RFP
-          </button>
+            <div className="inline-flex items-center gap-2">
+              <span className="w-6 h-0.5 bg-[#E8892D]" />
+              <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#E8892D]">
+                WHAT WE DO
+              </span>
+              <span className="w-6 h-0.5 bg-[#E8892D]" />
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight">
+              Comprehensive Construction Services. <br />
+            </h2>
+          </motion.div>
+
+          {/* Vertical Accordion Stack (Slides up as header fades) */}
+          <motion.div 
+            style={{ y: accordionY }}
+            className="flex flex-col gap-2 max-w-4xl mx-auto w-full"
+          >
+              {servicesData.map((service, idx) => (
+                <ServiceCard
+                  key={service.id}
+                  service={service}
+                  idx={idx}
+                  totalItems={servicesData.length}
+                  scrollYProgress={scrollYProgress}
+                  onClick={() => setActiveServiceModal(service)}
+                />
+              ))}
+            </motion.div>
+          </div>
         </div>
 
-      </div>
+      {/* Banner CTA positioned at the bottom of the 600vh section */}
+      x
 
       {/* Service Detail Modal */}
       <AnimatePresence>

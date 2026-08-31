@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight, ChevronDown, CheckCircle2 } from 'lucide-react';
+import Stats from './Stats';
 
 export default function Hero({ onOpenQuote, onExploreProjects }) {
   return (
@@ -129,7 +130,11 @@ export default function Hero({ onOpenQuote, onExploreProjects }) {
               />
             </motion.div>
           </div>
+        </div>
 
+        {/* Integrated Stats Bar overlapping the bottom of the Hero */}
+        <div className="-mt-4 sm:-mt-8 lg:-mt-16 pb-4 sm:pb-6 relative z-30">
+          <Stats />
         </div>
       </div>
     </section>

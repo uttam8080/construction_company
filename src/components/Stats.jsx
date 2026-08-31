@@ -78,12 +78,8 @@ export default function Stats() {
   ];
 
   return (
-    <section
-      id="statistics-section"
-      className="relative z-20 bg-[#162238] text-white py-12 sm:py-16 border-y border-white/10"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0">
+    <div className="w-full relative z-20">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0">
           {statsList.map((stat, index) => {
             const Icon = stat.icon;
             const isLast = index === statsList.length - 1;
@@ -131,7 +127,6 @@ export default function Stats() {
             );
           })}
         </div>
-      </div>
-    </section>
+    </div>
   );
 }

@@ -65,19 +65,13 @@ export default function Projects({ onOpenQuote }) {
           })}
         </div>
 
-        {/* Projects Asymmetric/Masonry Grid */}
+        {/* Projects Symmetrical Grid */}
         <motion.div
           layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
         >
           <AnimatePresence>
-            {filteredProjects.map((project, idx) => {
-              // Asymmetrical grid column spanning for an editorial feel
-              // Project 0 and 3 span 7 or 8 columns on large screens
-              const isLarge = idx % 3 === 0;
-              const colSpan = isLarge ? 'lg:col-span-7' : 'lg:col-span-5';
-
-              return (
+            {filteredProjects.map((project, idx) => (
                 <motion.div
                   layout
                   key={project.id}
@@ -87,7 +81,7 @@ export default function Projects({ onOpenQuote }) {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.6, delay: idx * 0.08 }}
                   onClick={() => setSelectedProject(project)}
-                  className={`group relative rounded-sm overflow-hidden bg-[#162238] border border-white/10 hover:border-[#E8892D]/70 transition-all duration-300 cursor-pointer ${colSpan} flex flex-col justify-end min-h-[380px] sm:min-h-[440px]`}
+                  className={`group relative rounded-sm overflow-hidden bg-[#162238] border border-white/10 hover:border-[#E8892D]/70 transition-all duration-300 cursor-pointer flex flex-col justify-end min-h-[380px] sm:min-h-[440px]`}
                 >
                   {/* Background Image with Zoom */}
                   <div className="absolute inset-0 overflow-hidden">
@@ -104,10 +98,10 @@ export default function Projects({ onOpenQuote }) {
 
                   {/* Top Badge: Category & Year */}
                   <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-                    <span className="bg-[#0D1522]/80 backdrop-blur-md text-[#E8892D] text-[10px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-sm border border-[#E8892D]/30">
+                    <span className="bg-[#1C2028] text-[#E8892D] text-[10px] font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-sm">
                       {project.category}
                     </span>
-                    <span className="bg-[#0D1522]/80 backdrop-blur-md text-white text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-sm border border-white/10">
+                    <span className="bg-[#1C2028] text-white text-[10px] font-mono font-bold tracking-wider px-2.5 py-1.5 rounded-sm">
                       {project.year}
                     </span>
                   </div>
@@ -121,26 +115,22 @@ export default function Projects({ onOpenQuote }) {
                     </div>
 
                     {/* Title & Arrow */}
-                    <div className="flex items-start justify-between gap-4">
-                      <h3 className="text-xl sm:text-2xl font-heading font-extrabold text-white group-hover:text-[#F8FAFC] transition-colors leading-tight">
+                    <div className="flex items-center justify-between gap-4">
+                      <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-white group-hover:text-white transition-colors leading-tight tracking-wide">
                         {project.title}
                       </h3>
-                      <div className="w-10 h-10 rounded-sm bg-[#0D1522]/80 border border-white/15 flex items-center justify-center text-white group-hover:bg-[#E8892D] group-hover:border-[#E8892D] transition-colors flex-shrink-0">
-                        <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      <div className="w-9 h-9 rounded-sm bg-[#1C2028] flex items-center justify-center text-white flex-shrink-0 transition-transform group-hover:-translate-y-1">
+                        <ArrowUpRight className="w-4 h-4" />
                       </div>
                     </div>
 
-                    {/* Hidden on default, slides/fades in on hover */}
-                    <p className="text-xs text-[#CBD5E1] line-clamp-2 pt-1 opacity-90 group-hover:opacity-100 transition-opacity">
+                    {/* Description */}
+                    <p className="text-[11px] sm:text-xs text-[#CBD5E1]/90 line-clamp-2 pt-1">
                       {project.description}
                     </p>
-
-                    {/* Orange accent line that expands on hover */}
-                    <div className="w-0 group-hover:w-full h-0.5 bg-[#E8892D] transition-all duration-300 rounded-full" />
                   </div>
                 </motion.div>
-              );
-            })}
+            ))}
           </AnimatePresence>
         </motion.div>
 

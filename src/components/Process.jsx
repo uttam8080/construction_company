@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import React, { useState, useRef } from 'react';
+import { motion, useScroll, useMotionValueEvent, useTransform } from 'motion/react';
 import { 
   FileSearch, 
   CalendarCheck, 
@@ -24,36 +24,59 @@ const stepIcons = [
 
 export default function Process({ onOpenQuote }) {
   const [activeStep, setActiveStep] = useState(0);
+  const containerRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "92%"]);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // Sync the active step perfectly with the progress line's physical position
+    const step = Math.round(latest * (processSteps.length - 1));
+    setActiveStep(Math.min(processSteps.length - 1, Math.max(0, step)));
+  });
 
   return (
-    <section
-      id="process"
-      className="relative z-10 bg-[#F5F3EE] text-[#171717] py-20 sm:py-28 lg:py-32"
-    >
-      {/* Background Subtle Blueprint Grid */}
-      <div className="absolute inset-0 bg-blueprint-grid-light opacity-50 pointer-events-none" />
+    <>
+      {/* Normal Scrolling Header Section */}
+      <section className="relative z-10 bg-[#F5F3EE] text-[#171717] pt-24 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-2">
+              <span className="w-6 h-0.5 bg-[#E8892D]" />
+              <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#E8892D]">
+                METHODOLOGY & LIFECYCLE
+              </span>
+              <span className="w-6 h-0.5 bg-[#E8892D]" />
+            </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2">
-            <span className="w-6 h-0.5 bg-[#E8892D]" />
-            <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#E8892D]">
-              METHODOLOGY & LIFECYCLE
-            </span>
-            <span className="w-6 h-0.5 bg-[#E8892D]" />
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-[#0D1522] tracking-tight">
+              FROM VISION TO REALITY
+            </h2>
+
+            <p className="text-sm sm:text-base text-neutral-600">
+              A disciplined 6-stage construction lifecycle engineered to eliminate risk, guarantee cost certainty, and achieve architectural precision.
+            </p>
           </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-[#0D1522] tracking-tight">
-            FROM VISION TO REALITY
-          </h2>
-
-          <p className="text-sm sm:text-base text-neutral-600">
-            A disciplined 6-stage construction lifecycle engineered to eliminate risk, guarantee cost certainty, and achieve architectural precision.
-          </p>
         </div>
+      </section>
 
+      {/* Scroll-Driven Animation Section */}
+      <section
+        id="process"
+        ref={containerRef}
+        className="relative z-10 bg-[#F5F3EE]"
+        style={{ height: "600vh" }}
+      >
+        <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+          {/* Background Subtle Blueprint Grid */}
+          <div className="absolute inset-0 bg-blueprint-grid-light opacity-50 pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        
         {/* Desktop Interactive Horizontal Timeline Switcher */}
         <div className="hidden lg:block mb-12">
           <div className="relative">
@@ -64,9 +87,8 @@ export default function Process({ onOpenQuote }) {
             <motion.div
               className="absolute top-1/2 left-8 h-1 bg-[#E8892D] -translate-y-1/2 z-0 origin-left"
               style={{
-                width: `${(activeStep / (processSteps.length - 1)) * 92}%`
+                width: progressWidth
               }}
-              transition={{ duration: 0.4 }}
             />
 
             {/* Step Nodes */}
@@ -77,10 +99,9 @@ export default function Process({ onOpenQuote }) {
                 const isCompleted = activeStep > idx;
 
                 return (
-                  <button
+                  <div
                     key={step.step}
-                    onClick={() => setActiveStep(idx)}
-                    className="flex flex-col items-center group focus:outline-none cursor-pointer"
+                    className="flex flex-col items-center group focus:outline-none"
                   >
                     <div
                       className={`w-14 h-14 rounded-full flex items-center justify-center font-mono font-bold text-sm transition-all duration-300 border-2 ${
@@ -100,7 +121,7 @@ export default function Process({ onOpenQuote }) {
                     >
                       {step.step}. {step.title.split(' ')[0]}
                     </span>
-                  </button>
+                  </div>
                 );
               })}
             </div>
@@ -216,7 +237,9 @@ export default function Process({ onOpenQuote }) {
           })}
         </div>
 
-      </div>
-    </section>
+        </div>
+        </div>
+      </section>
+    </>
   );
 }

@@ -5,7 +5,6 @@ import Stats from './components/Stats';
 import About from './components/About';
 import Projects from './components/Projects';
 import Services from './components/Services';
-import WhyChooseUs from './components/WhyChooseUs';
 import Process from './components/Process';
 import Testimonials from './components/Testimonials';
 import CTA from './components/CTA';
@@ -52,7 +51,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D1522] text-[#F8FAFC] flex flex-col selection:bg-[#E8892D] selection:text-white font-sans antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-[#0D1522] text-[#F8FAFC] flex flex-col selection:bg-[#E8892D] selection:text-white font-sans antialiased overflow-x-clip">
       {/* Sticky Header Navbar */}
       <Navbar
         onOpenQuote={handleOpenQuote}
@@ -69,14 +68,13 @@ export default function App() {
           onExploreProjects={handleExploreProjects}
         />
 
-        {/* 2. Trust & Statistics Strip */}
-        <Stats />
 
-        {/* Curved Transition: Deep Navy (#162238) -> Light Slate (#F1F5F9) */}
+
+        {/* Curved Transition: Hero (Black) -> Light Slate (#F1F5F9) */}
         <SectionDivider
           variant="light"
           type="convex-arch"
-          className="bg-[#162238]"
+          className="bg-black"
         />
 
         {/* 3. About Company Section (Light #F1F5F9) */}
@@ -102,21 +100,11 @@ export default function App() {
         {/* 5. Services Section (#162238) */}
         <Services onOpenQuote={handleOpenQuote} />
 
-        {/* Curved Transition: Secondary Deep Slate (#162238) -> Deep Navy (#0D1522) */}
-        <SectionDivider
-          variant="dark"
-          type="concave-arch"
-          className="bg-[#162238]"
-        />
-
-        {/* 6. Why Choose Us Section (Deep Navy #0D1522 with image backdrop) */}
-        <WhyChooseUs onOpenQuote={handleOpenQuote} />
-
-        {/* Curved Transition: Deep Navy (#0D1522) -> Light Slate (#F1F5F9) */}
+        {/* Curved Transition: Secondary Deep Slate (#162238) -> Light Slate (#F1F5F9) */}
         <SectionDivider
           variant="light"
           type="steep-curve"
-          className="bg-[#0D1522]"
+          className="bg-[#162238]"
         />
 
         {/* 7. Construction Process & Timeline (Light Slate #F1F5F9) */}

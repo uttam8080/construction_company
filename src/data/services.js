@@ -6,6 +6,7 @@ export const servicesData = [
     shortDesc: "End-to-end construction management and execution with uncompromising safety standards.",
     fullDesc: "From initial site mobilization to final commissioning, our general construction division oversees every trade, subcontractor, and structural milestone with rigorous on-site quality controls.",
     iconName: "Hammer",
+    image: "/general-construction.png",
     deliverables: [
       "Turnkey site management & field supervision",
       "Rigorous structural QA/QC protocols",
@@ -21,6 +22,7 @@ export const servicesData = [
     shortDesc: "Modern commercial buildings engineered for maximum operational performance and longevity.",
     fullDesc: "We erect iconic office towers, dynamic retail centers, and multi-tenant commercial complexes that maximize rentable square footage while optimizing energy footprint.",
     iconName: "Building2",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000",
     deliverables: [
       "High-rise core and shell fabrication",
       "High-efficiency envelope glazing & curtain walls",
@@ -36,6 +38,7 @@ export const servicesData = [
     shortDesc: "High-quality residential spaces built around people, aesthetic beauty, and structural integrity.",
     fullDesc: "Specializing in luxury multi-family developments, high-density residential towers, and custom estates featuring precision architectural finishes and bespoke structural details.",
     iconName: "Home",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000",
     deliverables: [
       "Multi-family high-rise residential framing",
       "Acoustic isolation & decoupling engineering",
@@ -51,6 +54,7 @@ export const servicesData = [
     shortDesc: "Large-scale infrastructure, civil engineering, and public transit connectivity networks.",
     fullDesc: "Heavy civil engineering solutions including bridges, highways, water treatment structures, and mass transit corridors built to withstand decades of intensive public use.",
     iconName: "Layers",
+    image: "https://images.unsplash.com/photo-1545459720-aac8509eb02c?auto=format&fit=crop&q=80&w=2000",
     deliverables: [
       "Prestressed and post-tensioned bridge viaducts",
       "Heavy earthwork, deep foundation piling & retaining",
@@ -66,6 +70,7 @@ export const servicesData = [
     shortDesc: "Transforming existing spaces and heritage structures with modern structural upgrades.",
     fullDesc: "Breathing new life into aging commercial assets, historic architectural landmarks, and industrial spaces through adaptive reuse, seismic retrofits, and interior transformation.",
     iconName: "Sparkles",
+    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=2000",
     deliverables: [
       "Historic landmark preservation & facade restoration",
       "Structural steel reinforcing & seismic retrofitting",
@@ -81,6 +86,7 @@ export const servicesData = [
     shortDesc: "Comprehensive planning, 4D BIM coordination, and digital delivery from start to finish.",
     fullDesc: "Digital-first construction execution leveraging Level-300 BIM modeling, drone site telemetry, real-time cost forecasting, and strict critical-path scheduling.",
     iconName: "Compass",
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=2000",
     deliverables: [
       "3D/4D BIM clash detection & digital twins",
       "Critical path method (CPM) schedule optimization",
