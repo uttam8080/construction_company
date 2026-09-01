@@ -141,43 +141,12 @@ export default function Footer({ onOpenQuote }) {
             </ul>
           </div>
 
-          {/* Column 4: Newsletter & Direct Contact (3 cols) */}
+          {/* Column 4: Direct Contact (3 cols) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="font-heading font-bold text-sm text-white uppercase tracking-wider">
-              Industry Insights
+              Contact Us
             </h4>
-            <p className="text-xs text-slate-400 leading-normal">
-              Subscribe to our quarterly architectural engineering journal & quarterly cost forecasts.
-            </p>
-
-            <form onSubmit={handleSubscribe} className="space-y-2">
-              <div className="relative">
-                <input
-                  type="email"
-                  required
-                  placeholder="Enter work email..."
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="w-full bg-[#162238] border border-white/10 rounded-sm py-2.5 pl-3 pr-10 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-[#E8892D]"
-                />
-                <button
-                  type="submit"
-                  aria-label="Subscribe"
-                  className="absolute right-1 top-1 bottom-1 px-3 bg-[#E8892D] text-white rounded-sm hover:bg-[#d97b20] transition-colors flex items-center justify-center cursor-pointer"
-                >
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {subscribed && (
-                <div className="flex items-center gap-1.5 text-[11px] text-[#E8892D] font-mono">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Subscription confirmed. Thank you!</span>
-                </div>
-              )}
-            </form>
-
-            <div className="pt-2 space-y-2 text-xs text-slate-400">
+            <div className="space-y-2 text-xs text-slate-400">
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[#E8892D]" />
                 <span>+1 (800) 555-8264</span>

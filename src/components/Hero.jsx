@@ -46,7 +46,7 @@ export default function Hero({ onOpenQuote, onExploreProjects }) {
             <div className="space-y-1">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.85rem] font-heading font-extrabold tracking-tight text-white leading-[1.08]">
                 <TextReveal text="WE BUILD" delay={0.1} /> <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#F8FAFC] to-[#CBD5E1]">
+                <span className="text-[#CBD5E1]">
                   <TextReveal text="WHAT LASTS." delay={0.2} />
                 </span>
               </h1>
