@@ -11,6 +11,7 @@ import CTA from './components/CTA';
 import Footer from './components/Footer';
 import SectionDivider from './components/SectionDivider';
 import QuoteModal from './components/QuoteModal';
+import SmoothScroll from './components/SmoothScroll';
 
 export default function App() {
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
@@ -51,17 +52,18 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D1522] text-[#F8FAFC] flex flex-col selection:bg-[#E8892D] selection:text-white font-sans antialiased overflow-x-clip">
-      {/* Sticky Header Navbar */}
-      <Navbar
-        onOpenQuote={handleOpenQuote}
-        activeSection={activeSection}
-      />
+    <SmoothScroll>
+      <div className="min-h-screen bg-[#0D1522] text-[#F8FAFC] flex flex-col selection:bg-[#E8892D] selection:text-white font-sans antialiased overflow-x-clip">
+        {/* Sticky Header Navbar */}
+        <Navbar
+          onOpenQuote={handleOpenQuote}
+          activeSection={activeSection}
+        />
 
-      {/* Main Page Flow:
-          Hero -> Stats -> About -> Projects -> Services -> Why Us -> Process -> Testimonials -> CTA -> Footer
-      */}
-      <main className="flex-grow">
+        {/* Main Page Flow:
+            Hero -> Stats -> About -> Projects -> Services -> Why Us -> Process -> Testimonials -> CTA -> Footer
+        */}
+        <main className="flex-grow">
         {/* 1. Hero Section */}
         <Hero
           onOpenQuote={handleOpenQuote}
@@ -71,51 +73,76 @@ export default function App() {
 
 
         {/* Curved Transition: Hero (Black) -> Light Slate (#F1F5F9) */}
-        <SectionDivider
-          variant="light"
-          type="convex-arch"
-          className="bg-black"
-        />
+        <div className="w-full relative z-20">
+          <div className="absolute top-0 left-0 w-full">
+            <SectionDivider
+              variant="black"
+              fillPosition="top"
+              type="convex-arch"
+              className="bg-transparent"
+            />
+          </div>
+        </div>
 
         {/* 3. About Company Section (Light #F1F5F9) */}
         <About onOpenQuote={handleOpenQuote} />
 
         {/* Curved Transition: Light Slate (#F1F5F9) -> Deep Navy (#0D1522) */}
-        <SectionDivider
-          variant="dark"
-          type="slope-right"
-          className="bg-[#F1F5F9]"
-        />
+        <div className="w-full relative z-20">
+          <div className="absolute top-0 left-0 w-full">
+            <SectionDivider
+              variant="light"
+              fillPosition="top"
+              type="slope-right"
+              className="bg-transparent"
+            />
+          </div>
+        </div>
 
         {/* 4. Projects Showcase Section (Deep Navy #0D1522) */}
         <Projects onOpenQuote={handleOpenQuote} />
 
         {/* Curved Transition: Deep Navy (#0D1522) -> Secondary Deep Slate (#162238) */}
-        <SectionDivider
-          variant="secondaryDark"
-          type="wave-architectural"
-          className="bg-[#0D1522]"
-        />
+        <div className="w-full relative z-20">
+          <div className="absolute top-0 left-0 w-full">
+            <SectionDivider
+              variant="dark"
+              fillPosition="top"
+              type="wave-architectural"
+              className="bg-transparent"
+            />
+          </div>
+        </div>
 
         {/* 5. Services Section (#162238) */}
         <Services onOpenQuote={handleOpenQuote} />
 
         {/* Curved Transition: Secondary Deep Slate (#162238) -> Light Slate (#F1F5F9) */}
-        <SectionDivider
-          variant="light"
-          type="steep-curve"
-          className="bg-[#162238]"
-        />
+        <div className="w-full relative z-20">
+          <div className="absolute top-0 left-0 w-full">
+            <SectionDivider
+              variant="secondaryDark"
+              fillPosition="top"
+              type="steep-curve"
+              className="bg-transparent"
+            />
+          </div>
+        </div>
 
         {/* 7. Construction Process & Timeline (Light Slate #F1F5F9) */}
         <Process onOpenQuote={handleOpenQuote} />
 
         {/* Curved Transition: Light Slate (#F1F5F9) -> Deep Navy (#0D1522) */}
-        <SectionDivider
-          variant="dark"
-          type="slope-left"
-          className="bg-[#F1F5F9]"
-        />
+        <div className="w-full relative z-20">
+          <div className="absolute top-0 left-0 w-full">
+            <SectionDivider
+              variant="light"
+              fillPosition="top"
+              type="slope-left"
+              className="bg-transparent"
+            />
+          </div>
+        </div>
 
         {/* 8. Testimonials Section (Deep Navy #0D1522) */}
         <Testimonials />
@@ -124,11 +151,16 @@ export default function App() {
         <CTA onOpenQuote={handleOpenQuote} />
 
         {/* Curved Transition: Deep Navy CTA -> Deepest Midnight (#090E17) */}
-        <SectionDivider
-          variant="deepest"
-          type="convex-arch"
-          className="bg-[#0D1522]"
-        />
+        <div className="w-full relative z-20">
+          <div className="absolute top-0 left-0 w-full">
+            <SectionDivider
+              variant="dark"
+              fillPosition="top"
+              type="convex-arch"
+              className="bg-transparent"
+            />
+          </div>
+        </div>
       </main>
 
       {/* 10. Footer */}
@@ -139,6 +171,7 @@ export default function App() {
         isOpen={quoteModalOpen}
         onClose={() => setQuoteModalOpen(false)}
       />
-    </div>
+      </div>
+    </SmoothScroll>
   );
 }

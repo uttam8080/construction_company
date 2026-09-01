@@ -4,6 +4,8 @@ import { ArrowUpRight, MapPin, Calendar, Layers, Eye } from 'lucide-react';
 import { projectsData, projectCategories } from '../data/projects';
 import ProjectModal from './ProjectModal';
 
+import TextReveal from './TextReveal';
+
 export default function Projects({ onOpenQuote }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -32,8 +34,10 @@ export default function Projects({ onOpenQuote }) {
               </span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight">
-              Spaces Engineered to Perform. <br />
-              <span className="text-[#CBD5E1]">Structures Built to Inspire.</span>
+              <TextReveal text="Spaces Engineered to Perform." delay={0.1} /> <br />
+              <span className="text-[#CBD5E1]">
+                <TextReveal text="Structures Built to Inspire." delay={0.2} />
+              </span>
             </h2>
           </div>
 

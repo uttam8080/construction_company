@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Quote, Star, Building, CheckCircle2 } from 'lucide-react';
 import { testimonialsData } from '../data/testimonials';
+import TextReveal from './TextReveal';
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -44,7 +45,7 @@ export default function Testimonials() {
             <span className="w-6 h-0.5 bg-[#E8892D]" />
           </div>
           <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-white">
-            Endorsements from Capital Leaders
+            <TextReveal text="Endorsements from Capital Leaders" delay={0.1} />
           </h2>
         </div>
 

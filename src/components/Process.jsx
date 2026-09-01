@@ -12,6 +12,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { processSteps } from '../data/process';
+import TextReveal from './TextReveal';
 
 const stepIcons = [
   FileSearch,
@@ -42,7 +43,7 @@ export default function Process({ onOpenQuote }) {
   return (
     <>
       {/* Normal Scrolling Header Section */}
-      <section className="relative z-10 bg-[#F5F3EE] text-[#171717] pt-24 pb-8">
+      <section className="relative z-10 bg-[#F1F5F9] text-[#171717] pt-24 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <div className="inline-flex items-center gap-2">
@@ -54,7 +55,7 @@ export default function Process({ onOpenQuote }) {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-[#0D1522] tracking-tight">
-              FROM VISION TO REALITY
+              <TextReveal text="FROM VISION TO REALITY" delay={0.1} />
             </h2>
 
             <p className="text-sm sm:text-base text-neutral-600">
@@ -68,7 +69,7 @@ export default function Process({ onOpenQuote }) {
       <section
         id="process"
         ref={containerRef}
-        className="relative z-10 bg-[#F5F3EE]"
+        className="relative z-10 bg-[#F1F5F9]"
         style={{ height: "600vh" }}
       >
         <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">

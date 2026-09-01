@@ -14,6 +14,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { servicesData } from '../data/services';
+import TextReveal from './TextReveal';
 
 const iconComponents = {
   Hammer,
@@ -186,7 +187,7 @@ export default function Services({ onOpenQuote }) {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight">
-              Comprehensive Construction Services. <br />
+              <TextReveal text="Comprehensive Construction Services." delay={0.1} /> <br />
             </h2>
           </motion.div>
 

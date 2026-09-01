@@ -95,15 +95,7 @@ export default function Stats() {
                   !isLast ? 'lg:border-r lg:border-white/10' : ''
                 }`}
               >
-                {/* Icon & Label */}
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 rounded-sm bg-[#0D1522] border border-[#E8892D]/30 flex items-center justify-center text-[#E8892D]">
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <span className="text-[11px] font-mono tracking-wider text-[#CBD5E1]/80 uppercase">
-                    METRIC 0{index + 1}
-                  </span>
-                </div>
+
 
                 {/* Big Number */}
                 <div className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight flex items-baseline">

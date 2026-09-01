@@ -4,6 +4,7 @@ import { Check, ArrowRight, ShieldCheck, HardHat, Compass, Leaf, X } from 'lucid
 import CursorGrid from './CursorGrid';
 import ClickSpark from './ClickSpark';
 import TiltedCard from './TiltedCard';
+import TextReveal from './TextReveal';
 
 export default function About({ onOpenQuote }) {
   const [activeModalTab, setActiveModalTab] = useState(null);
@@ -126,16 +127,12 @@ export default function About({ onOpenQuote }) {
             </motion.div>
 
             {/* Main Section Heading */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-[#0D1522] leading-[1.12]"
-            >
-              Built on Experience. <br className="hidden sm:inline" />
-              <span className="text-[#E8892D]">Driven by Excellence.</span>
-            </motion.h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-[#0D1522] leading-[1.12]">
+              <TextReveal text="Built on Experience." delay={0.1} /> <br className="hidden sm:inline" />
+              <span className="text-[#E8892D]">
+                <TextReveal text="Driven by Excellence." delay={0.2} />
+              </span>
+            </h2>
 
             {/* Paragraph Text */}
             <motion.p

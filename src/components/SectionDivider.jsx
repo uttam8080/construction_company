@@ -8,6 +8,7 @@ export default function SectionDivider({
   variant = 'light', // 'light' (#F5F3EE), 'dark' (#111315), 'secondaryDark' (#1B1F21), 'orange' (#E8892D)
   type = 'convex-arch', // 'convex-arch', 'concave-arch', 'slope-right', 'wave-architectural', 'steep-curve'
   flipY = false,
+  fillPosition = 'bottom', // 'bottom' or 'top'
   className = '',
   id = undefined
 }) {
@@ -25,61 +26,22 @@ export default function SectionDivider({
   const fillColor = colorMap[variant] || variant;
 
   const renderPath = () => {
+    const closure = fillPosition === 'top' ? 'L1440,0 L0,0 Z' : 'L1440,80 L0,80 Z';
+    
     switch (type) {
       case 'convex-arch':
-        // A smooth architectural arch that creates a sweeping curve into the section
-        return (
-          <path
-            d="M0,0 C360,70 1080,70 1440,0 L1440,80 L0,80 Z"
-            fill={fillColor}
-          />
-        );
-
+        return <path d={`M0,0 C360,70 1080,70 1440,0 ${closure}`} fill={fillColor} />;
       case 'concave-arch':
-        // A subtle concave architectural curve dipping down
-        return (
-          <path
-            d="M0,80 C480,10 960,10 1440,80 L1440,80 L0,80 Z"
-            fill={fillColor}
-          />
-        );
-
+        return <path d={`M0,80 C480,10 960,10 1440,80 ${closure}`} fill={fillColor} />;
       case 'slope-right':
-        // Modern asymmetrical sweeping slope
-        return (
-          <path
-            d="M0,80 C360,80 840,20 1440,0 L1440,80 L0,80 Z"
-            fill={fillColor}
-          />
-        );
-
+        return <path d={`M0,80 C360,80 840,20 1440,0 ${closure}`} fill={fillColor} />;
       case 'slope-left':
-        // Opposite asymmetrical slope
-        return (
-          <path
-            d="M0,0 C600,20 1080,80 1440,80 L0,80 Z"
-            fill={fillColor}
-          />
-        );
-
+        return <path d={`M0,0 C600,20 1080,80 1440,80 ${closure}`} fill={fillColor} />;
       case 'wave-architectural':
-        // Clean double-radius architectural curve
-        return (
-          <path
-            d="M0,40 C320,80 480,10 800,45 C1120,80 1280,15 1440,50 L1440,80 L0,80 Z"
-            fill={fillColor}
-          />
-        );
-
+        return <path d={`M0,40 C320,80 480,10 800,45 C1120,80 1280,15 1440,50 ${closure}`} fill={fillColor} />;
       case 'steep-curve':
       default:
-        // Deep prominent architectural curve
-        return (
-          <path
-            d="M0,0 Q720,100 1440,0 L1440,80 L0,80 Z"
-            fill={fillColor}
-          />
-        );
+        return <path d={`M0,0 Q720,100 1440,0 ${closure}`} fill={fillColor} />;
     }
   };
 

@@ -61,7 +61,7 @@ export default function Navbar({ onOpenQuote, activeSection = 'home' }) {
         id="main-header"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#090E17]/95 backdrop-blur-md border-b border-white/10 py-3 shadow-2xl'
+            ? 'bg-[#090E17]/95 backdrop-blur-md py-3 shadow-2xl'
             : 'bg-gradient-to-b from-[#090E17]/90 via-[#090E17]/50 to-transparent py-4 sm:py-5'
         }`}
       >

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight, ChevronDown, CheckCircle2 } from 'lucide-react';
 import Stats from './Stats';
+import TextReveal from './TextReveal';
 
 export default function Hero({ onOpenQuote, onExploreProjects }) {
   return (
@@ -27,9 +28,9 @@ export default function Hero({ onOpenQuote, onExploreProjects }) {
         </motion.div>
 
         {/* Multi-layered Cinematic Black Gradients for Optimal Contrast */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/80 to-black/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/70" />
 
         {/* Subtle Blueprint Grid Overlay */}
         <div className="absolute inset-0 bg-blueprint-grid opacity-20" />
@@ -43,17 +44,12 @@ export default function Hero({ onOpenQuote, onExploreProjects }) {
           <div className="lg:col-span-6 space-y-4 sm:space-y-5 pb-8 sm:pb-12 lg:pb-14">
             {/* Main Headline */}
             <div className="space-y-1">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.85rem] font-heading font-extrabold tracking-tight text-white leading-[1.08]"
-              >
-                WE BUILD <br />
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.85rem] font-heading font-extrabold tracking-tight text-white leading-[1.08]">
+                <TextReveal text="WE BUILD" delay={0.1} /> <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#F8FAFC] to-[#CBD5E1]">
-                  WHAT LASTS.
+                  <TextReveal text="WHAT LASTS." delay={0.2} />
                 </span>
-              </motion.h1>
+              </h1>
             </div>
 
             {/* Supporting Text */}
@@ -133,7 +129,7 @@ export default function Hero({ onOpenQuote, onExploreProjects }) {
         </div>
 
         {/* Integrated Stats Bar overlapping the bottom of the Hero */}
-        <div className="-mt-4 sm:-mt-8 lg:-mt-16 pb-4 sm:pb-6 relative z-30">
+        <div className="-mt-4 sm:-mt-8 lg:-mt-16 pb-16 sm:pb-20 lg:pb-28 relative z-30">
           <Stats />
         </div>
       </div>
